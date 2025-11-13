@@ -84,6 +84,7 @@ body {
   background: linear-gradient(to top, #ffb347, #ffd166);
 }
 
+
 .icing {
   position: absolute;
   bottom: 120px;
@@ -118,7 +119,9 @@ body {
   opacity: 0.9;
 }
 
-/* === Dekorasi Kue === */
+/* === Tambahan Ornamen Warna-Warni di Kue === */
+
+/* Lapisan krim bergelombang antara layer */
 .layer-decor {
   position: absolute;
   width: 200px;
@@ -137,15 +140,21 @@ body {
   animation: waveMove 3s ease-in-out infinite alternate;
 }
 
-.layer-decor.middle { bottom: 70px; }
-.layer-decor.bottom { bottom: 20px; }
+.layer-decor.middle {
+  bottom: 70px;
+}
 
+.layer-decor.bottom {
+  bottom: 20px;
+}
+
+/* Efek bergerak lembut di krim */
 @keyframes waveMove {
   0% { transform: translateX(-50%) translateY(0); }
   100% { transform: translateX(-50%) translateY(3px); }
 }
 
-/* Sprinkle */
+/* Sprinkle warna-warni di atas tiap layer */
 .sprinkle {
   position: absolute;
   width: 6px;
@@ -162,20 +171,31 @@ body {
   50% { transform: rotate(calc(var(--angle) + 20deg)) scale(1.2); opacity: 1; }
 }
 
-/* Candles & Flame */
+
+@keyframes twinkleEmoji {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+
+
+/* Candles */
 .candle {
   position: absolute;
   bottom: 142px;
   width: 10px;
   height: 30px;
   border-radius: 3px;
-  background: repeating-linear-gradient(to top, #fff, #fff 4px, #ff69b4 4px, #ff69b4 8px);
+  background: repeating-linear-gradient(
+      to top, #fff, #fff 4px, #ff69b4 4px, #ff69b4 8px);
 }
 
 #candle1 { left: 50%; transform: translateX(-50%); }
 #candle2 { left: 35%; }
 #candle3 { left: 60%; }
 
+/* Flames */
+/* Flames */
 .flame {
   position: absolute;
   width: 14px;
@@ -186,13 +206,42 @@ body {
   animation: flicker 0.8s ease-in-out infinite;
 }
 
-#flame1 { bottom: 182px; height: 45px; left: 47%; transform: translateX(-50%); }
-#flame2 { bottom: 182px; height: 30px; left: 34%; transform: translateX(-50%); }
-#flame3 { bottom: 182px; height: 30px; left: 59%; transform: translateX(-50%); }
+/* Sesuaikan posisi dengan candle masing-masing */
+#flame1 {
+  bottom: 182px;
+  height: 45px;
+  left: 47%;
+  transform: translateX(-50%);
+}
+#flame2 {
+  bottom: 182px;
+  height: 30px;
+  left: 34%;
+  transform: translateX(-50%);
+}
+#flame3 {
+  bottom: 182px;
+  height: 30px;
+  left: 59%;
+  transform: translateX(-50%);
+}
+
 
 @keyframes flicker {
   0%, 100% { transform: scale(1) translateY(0); opacity: 1; filter: brightness(1.2); }
   50% { transform: scale(0.9) translateY(-1px); opacity: 0.8; filter: brightness(0.9); }
+}
+
+/* Glow */
+.flame::after {
+  content: "";
+  position: absolute;
+  top: -5px; left: -5px;
+  width: 24px; height: 30px;
+  background: radial-gradient(circle, rgba(255,215,0,0.5), transparent);
+  border-radius: 50%;
+  filter: blur(8px);
+  z-index: -1;
 }
 
 /* Message */
@@ -202,7 +251,7 @@ body {
   color: #ff69b4;
   margin: 10px 0 0;
   text-shadow: 0 3px 10px rgba(255,105,180,0.4);
-  animation: glowText 2s ease-in-out 3;
+  animation: glowText 2s ease-in-out 3; /* glow hanya 3x */
 }
 
 @keyframes glowText {
@@ -216,7 +265,7 @@ body {
   margin-top: 8px;
 }
 
-/* Confetti */
+/* Confetti (muncul sekali) */
 .particles {
   position: absolute;
   top: 0; left: 0;
@@ -252,9 +301,9 @@ body {
     <div class="layer layer-bottom"></div>
     <div class="layer layer-middle"></div>
     <div class="layer layer-top"></div>
-    <div class="icing"></div>
-    <div class="stars" id="stars"></div>
-    <div class="meses" id="meses"></div>
+      <div class="icing"></div>
+      <div class="stars" id="stars"></div>
+  <div class="meses" id="meses"></div>
     <div class="candle" id="candle1"></div>
     <div class="candle" id="candle2"></div>
     <div class="candle" id="candle3"></div>
@@ -265,7 +314,10 @@ body {
 
   <div class="message">
     <h1>Happy Birthday Nupaa!</h1>
-    <p>May your day be full of joy and sweetness! 🎂✨<br>Happy 18th ✨ dear Revan</p>
+    <p>May your day be full of joy and sweetness! 🎂✨
+        Happy 18th ✨
+        dear Revan
+    </p>
   </div>
 
   <button class="music-btn" id="musicBtn">🎵 Play Music</button>
@@ -273,13 +325,107 @@ body {
   <div class="particles" id="particles"></div>
 </div>
 
-<!-- 🎶 MUSIC FROM GOOGLE DRIVE -->
-<audio id="birthdaySong" preload="auto">
-  <source src="https://docs.google.com/uc?export=download&id=1xzN2lThbput3tOz1Jla7EDt6Wom1e_L2" type="audio/mp3">
-</audio>
+<audio id="birthdaySong" src="asset/Nadin_Amizah_-_Semua_Aku_Dirayakan_CeeNaija.com_.mp3"></audio>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  const particlesContainer = document.getElementById('particles');
+  const colors = ['#ff69b4', '#ffd700', '#87ceeb', '#98fb98', '#ff8c00', '#ffa07a'];
+
+  // Bikin konfeti sekali aja
+  for (let i = 0; i < 50; i++) {
+    const p = document.createElement('div');
+    p.style.position = 'absolute';
+    p.style.width = '10px';
+    p.style.height = '10px';
+    p.style.borderRadius = '50%';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = Math.random() * 100 + '%';
+    p.style.opacity = 0.8;
+    p.style.transform = 'translateY(0)';
+    p.style.transition = 'transform 2s ease-out, opacity 2s ease-out';
+    particlesContainer.appendChild(p);
+    setTimeout(() => {
+      p.style.transform = 'translateY(300px)';
+      p.style.opacity = 0;
+    }, 100);
+    setTimeout(() => p.remove(), 2500);
+  }
+  
+    // Tambahkan meses di atas kue
+  const mesesContainer = document.getElementById('meses');
+  const mesesColors = ['#ff69b4', '#ffb347', '#87ceeb', '#98fb98', '#ffa07a', '#8a2be2'];
+  for (let i = 0; i < 40; i++) {
+    const m = document.createElement('span');
+    m.style.left = Math.random() * 120 + 'px';
+    m.style.top = Math.random() * 20 + 'px';
+    m.style.setProperty('--color', mesesColors[Math.floor(Math.random() * mesesColors.length)]);
+    m.style.setProperty('--angle', Math.random() * 180 + 'deg');
+    mesesContainer.appendChild(m);
+  }
+
+
+  // Flame click
+  const flames = document.querySelectorAll('.flame');
+  flames.forEach(flame => {
+    flame.addEventListener('click', function() {
+      this.style.display = 'none';
+      if ([...flames].every(f => f.style.display === 'none')) {
+        alert('All candles blown out! 🌟 Make a wish!');
+      }
+    });
+  });
+
+
+  // === Tambahan krim & meses yang menutupi layer kuning aja ===
+  const cake = document.querySelector('.cake');
+
+
+ // === Tambahan ornamen warna-warni di kue ===
+const sprinkleColors = ['#ff69b4', '#ffb347', '#87ceeb', '#98fb98', '#ffa07a', '#8a2be2', '#ffd700'];
+
+function addSprinklesToLayer(bottom, count = 40, width = 150) {
+  const layerSprinkle = document.createElement('div');
+  layerSprinkle.style.position = 'absolute';
+  layerSprinkle.style.bottom = `${bottom}px`;
+  layerSprinkle.style.left = '50%';
+  layerSprinkle.style.transform = 'translateX(-50%)';
+  layerSprinkle.style.width = width + 'px';
+  layerSprinkle.style.height = '45px';
+  layerSprinkle.style.pointerEvents = 'none';
+  layerSprinkle.style.zIndex = '4';
+
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('span');
+    s.classList.add('sprinkle');
+    s.style.left = Math.random() * width + 'px';
+    s.style.top = Math.random() * 40 + 'px';
+    s.style.setProperty('--color', sprinkleColors[Math.floor(Math.random() * sprinkleColors.length)]);
+    s.style.setProperty('--angle', Math.random() * 180 + 'deg');
+    layerSprinkle.appendChild(s);
+  }
+
+  cake.appendChild(layerSprinkle);
+}
+
+// Tambah sprinkle di layer kuning dan ungu
+addSprinklesToLayer(75, 35, 150);
+addSprinklesToLayer(25, 25, 180);
+
+// Tambahkan krim dekoratif bergelombang antar layer
+const decorMiddle = document.createElement('div');
+decorMiddle.classList.add('layer-decor', 'middle');
+cake.appendChild(decorMiddle);
+
+const decorBottom = document.createElement('div');
+decorBottom.classList.add('layer-decor', 'bottom');
+cake.appendChild(decorBottom);
+
+
+
+  // Music button
   const musicBtn = document.getElementById('musicBtn');
   const song = document.getElementById('birthdaySong');
   let playing = false;
@@ -297,6 +443,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-
 </body>
 </html>
